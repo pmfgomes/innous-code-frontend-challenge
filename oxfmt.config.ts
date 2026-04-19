@@ -1,0 +1,22 @@
+import { defineConfig } from "oxfmt";
+
+export default defineConfig({
+  printWidth: 120,
+  tabWidth: 2,
+  useTabs: false,
+  semi: true,
+  singleQuote: false,
+  quoteProps: "as-needed",
+  jsxSingleQuote: false,
+  trailingComma: "es5",
+  bracketSpacing: true,
+  bracketSameLine: false,
+  arrowParens: "always",
+  endOfLine: "lf",
+  experimentalSortPackageJson: true,
+  experimentalSortImports: {
+    ignoreCase: true,
+    newlinesBetween: true,
+    order: "asc",
+  },
+});
