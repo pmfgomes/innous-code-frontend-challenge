@@ -1,14 +1,24 @@
 import { createFileRoute } from "@tanstack/react-router";
 
+import { AlbumCard } from "@/components/album-card";
+import { selectAlbums } from "@/store/albums-slice";
+import { useAppSelector } from "@/store/hooks";
+
 export const Route = createFileRoute("/albums")({
   component: AlbumsPage,
 });
 
 function AlbumsPage() {
+  const albums = useAppSelector(selectAlbums);
+
   return (
-    <main className="flex min-h-screen items-center justify-center bg-brand-off-white px-6 py-10 text-brand-black">
-      <div className="rounded-2xl border border-brand-gold/50 bg-white/70 px-8 py-6 text-center shadow-[0_18px_40px_rgba(26,26,26,0.08)] backdrop-blur-sm">
-        <h1 className="text-3xl font-semibold tracking-[0.04em]">Albums</h1>
+    <main className="min-h-screen bg-[#1e1e1e] px-6 py-8">
+      <div className="mx-auto w-full max-w-640">
+        <div className="grid gap-4 [grid-template-columns:repeat(auto-fill,220px)]">
+          {albums.map((album) => (
+            <AlbumCard key={album.id} album={album} />
+          ))}
+        </div>
       </div>
     </main>
   );
