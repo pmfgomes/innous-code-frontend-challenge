@@ -16,7 +16,7 @@ function AlbumsPage() {
       <div className="pointer-events-none fixed inset-y-0 left-0 hidden w-[max(0px,calc((100vw-2560px)/2))] min-[2561px]:block bg-linear-to-r from-black/40 via-black/15 to-transparent backdrop-blur-lg" />
       <div className="pointer-events-none fixed inset-y-0 right-0 hidden w-[max(0px,calc((100vw-2560px)/2))] min-[2561px]:block bg-linear-to-l from-black/40 via-black/15 to-transparent backdrop-blur-lg" />
       <div className="mx-auto w-full max-w-640">
-        <div className="grid grid-cols-[repeat(auto-fill,220px)] gap-4">
+        <div className="grid grid-cols-[repeat(auto-fill,220px)] justify-center gap-4">
           {albums.map((album) => (
             <AlbumCard key={album.id} album={album} />
           ))}
