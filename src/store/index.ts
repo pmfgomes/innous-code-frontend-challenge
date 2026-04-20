@@ -1,7 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 
+import albumsReducer from "./albums-slice";
+
 export const store = configureStore({
-  reducer: {},
+  reducer: {
+    albums: albumsReducer,
+  },
 });
 
 export type RootState = ReturnType<typeof store.getState>;

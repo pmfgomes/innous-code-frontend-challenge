@@ -1,0 +1,312 @@
+ {
+  "source": "TIDAL",
+  "name": "UK Indie Classics",
+  "id": "tidal#fdc6fc02-7a52-408a-bb8a-b2bd70139699",
+  "description": "Post-punk, Britpop, rock, alternative, new rave: Indie has had numerous iterations throughout the years. It's given us generational anthems, legendary chart battles and more inter-band beef than a drive through McDonalds. From Joy Division and The Smiths, Oasis, Blur to the rowdy new millennium riffs of The Klaxons and Arctic Monkeys, this is the best of British indie. (Photo: Oasis / Image: Big Brother)",
+  "created_time": 1708357859,
+  "track_count": 20,
+  "total_time": "5:27:10",
+  "cover_id": "https://resources.tidal.com/images/87cbbd79/cf06/4dcb/998e/0caaa352135a/640x640.jpg",
+  "tracks": [
+    {
+      "id": "tidal#360915525",
+      "source": "TIDAL",
+      "cover": "https://resources.tidal.com/images/61bd12da/21fc/4416/b53c/3b8b86997e24/320x320.jpg",
+      "artist": [
+        {
+          "name": "Oasis",
+          "id": "online_tidal#109"
+        }
+      ],
+      "album": "Definitely Maybe (30th Anniversary Deluxe Edition)",
+      "album_id": "online_tidal#360915522",
+      "length": "04:37",
+      "title": "Live Forever"
+    },
+    {
+      "id": "tidal#5140778",
+      "source": "LOCAL",
+      "cover": "https://resources.tidal.com/images/bb35fa02/e3e9/4142/9a65/943a90b67739/320x320.jpg",
+      "artist": [
+        {
+          "name": "The Stone Roses",
+          "id": "online_tidal#2022"
+        }
+      ],
+      "album": "The Stone Roses",
+      "album_id": "online_tidal#3051702",
+      "length": "04:53",
+      "title": "I Wanna Be Adored (Remastered 2009)"
+    },
+    {
+      "id": "tidal#3751639",
+      "source": "QOBUZ",
+      "cover": "https://resources.tidal.com/images/2b6adde3/c0e5/43ff/bcb8/deda113838f7/320x320.jpg",
+      "artist": [
+        {
+          "name": "Franz Ferdinand",
+          "id": "online_tidal#27439"
+        }
+      ],
+      "album": "Franz Ferdinand",
+      "album_id": "online_tidal#3751636",
+      "length": "03:57",
+      "title": "Take Me Out"
+    },
+    {
+      "id": "tidal#360915524",
+      "source": "TIDAL",
+      "cover": "https://resources.tidal.com/images/61bd12da/21fc/4416/b53c/3b8b86997e24/320x320.jpg",
+      "artist": [
+        {
+          "name": "Oasis",
+          "id": "online_tidal#109"
+        }
+      ],
+      "album": "Definitely Maybe (30th Anniversary Deluxe Edition)",
+      "album_id": "online_tidal#360915522",
+      "length": "05:08",
+      "title": "Shakermaker"
+    },
+    {
+      "id": "tidal#68735437",
+      "source": "TIDAL",
+      "cover": "https://resources.tidal.com/images/77c8bb43/2508/41df/b43b/8d105658406d/320x320.jpg",
+      "artist": [
+        {
+          "name": "Blur",
+          "id": "online_tidal#10052"
+        }
+      ],
+      "album": "Parklife",
+      "album_id": "online_tidal#68735433",
+      "length": "03:05",
+      "title": "Parklife"
+    },
+    {
+      "id": "tidal#7915595",
+      "source": "QOBUZ",
+      "cover": "https://resources.tidal.com/images/c5063f20/46c2/44f3/81d8/f086cafa859d/320x320.jpg",
+      "artist": [
+        {
+          "name": "The Smiths",
+          "id": "online_tidal#12699"
+        }
+      ],
+      "album": "The Smiths",
+      "album_id": "online_tidal#7915589",
+      "length": "02:43",
+      "title": "This Charming Man (2011 Remaster)"
+    },
+    {
+      "id": "tidal#49152382",
+      "source": "TIDAL",
+      "cover": "https://resources.tidal.com/images/9681739f/5869/4ba2/8873/f2d561d1eaf0/320x320.jpg",
+      "artist": [
+        {
+          "name": "Joy Division",
+          "id": "online_tidal#11949"
+        }
+      ],
+      "album": "Substance",
+      "album_id": "online_tidal#49152372",
+      "length": "03:25",
+      "title": "Love Will Tear Us Apart (2010 Remaster)"
+    },
+    {
+      "id": "tidal#616032",
+      "source": "QOBUZ",
+      "cover": "https://resources.tidal.com/images/2adb56ee/c873/45d5/8cc1/ca72f67f5351/320x320.jpg",
+      "artist": [
+        {
+          "name": "The La's",
+          "id": "online_tidal#27561"
+        }
+      ],
+      "album": "The La's",
+      "album_id": "online_tidal#616027",
+      "length": "02:42",
+      "title": "There She Goes"
+    },
+    {
+      "id": "tidal#68735434",
+      "source": "TIDAL",
+      "cover": "https://resources.tidal.com/images/77c8bb43/2508/41df/b43b/8d105658406d/320x320.jpg",
+      "artist": [
+        {
+          "name": "Blur",
+          "id": "online_tidal#10052"
+        }
+      ],
+      "album": "Parklife",
+      "album_id": "online_tidal#68735433",
+      "length": "04:51",
+      "title": "Girls & Boys"
+    },
+    {
+      "id": "tidal#360915528",
+      "source": "QOBUZ",
+      "cover": "https://resources.tidal.com/images/61bd12da/21fc/4416/b53c/3b8b86997e24/320x320.jpg",
+      "artist": [
+        {
+          "name": "Oasis",
+          "id": "online_tidal#109"
+        }
+      ],
+      "album": "Definitely Maybe (30th Anniversary Deluxe Edition)",
+      "album_id": "online_tidal#360915522",
+      "length": "04:44",
+      "title": "Supersonic"
+    },
+    {
+      "id": "tidal#529751",
+      "source": "TIDAL",
+      "cover": "https://resources.tidal.com/images/dfb715a5/4bad/4f7f/81f1/d28d82636864/320x320.jpg",
+      "artist": [
+        {
+          "name": "The Cure",
+          "id": "online_tidal#18695"
+        }
+      ],
+      "album": "Greatest Hits",
+      "album_id": "online_tidal#529737",
+      "length": "03:34",
+      "title": "Friday I'm In Love"
+    },
+    {
+      "id": "tidal#3961169",
+      "source": "LOCAL",
+      "cover": "https://resources.tidal.com/images/1cd52893/b1bb/433f/a924/e77ca7c6134c/320x320.jpg",
+      "artist": [
+        {
+          "name": "The Bluetones",
+          "id": "online_tidal#34546"
+        }
+      ],
+      "album": "Expecting To Fly",
+      "album_id": "online_tidal#3961162",
+      "length": "03:21",
+      "title": "Slight Return"
+    },
+    {
+      "id": "tidal#35978053",
+      "source": "LOCAL",
+      "cover": "https://resources.tidal.com/images/9c1abe1b/d61d/4025/bccf/d367cf51b8a9/320x320.jpg",
+      "artist": [
+        {
+          "name": "Elastica",
+          "id": "online_tidal#3840682"
+        }
+      ],
+      "album": "Elastica",
+      "album_id": "online_tidal#35978050",
+      "length": "02:20",
+      "title": "Connection"
+    },
+    {
+      "id": "tidal#360915523",
+      "source": "QOBUZ",
+      "cover": "https://resources.tidal.com/images/61bd12da/21fc/4416/b53c/3b8b86997e24/320x320.jpg",
+      "artist": [
+        {
+          "name": "Oasis",
+          "id": "online_tidal#109"
+        }
+      ],
+      "album": "Definitely Maybe (30th Anniversary Deluxe Edition)",
+      "album_id": "online_tidal#360915522",
+      "length": "05:23",
+      "title": "Rock 'n' Roll Star"
+    },
+    {
+      "id": "tidal#2318465",
+      "source": "LOCAL",
+      "cover": "https://resources.tidal.com/images/6a950a8b/e7c7/48d1/aba5/acc2be602082/320x320.jpg",
+      "artist": [
+        {
+          "name": "Pulp",
+          "id": "online_tidal#30371"
+        }
+      ],
+      "album": "Different Class / Deluxe Edition",
+      "album_id": "online_tidal#2318460",
+      "length": "05:50",
+      "title": "Common People"
+    },
+    {
+      "id": "tidal#4697240",
+      "source": "TIDAL",
+      "cover": "https://resources.tidal.com/images/b46f7ced/becb/4eaf/9b87/b83fdf783dbd/320x320.jpg",
+      "artist": [
+        {
+          "name": "Cast",
+          "id": "online_tidal#11483"
+        }
+      ],
+      "album": "All Change (Deluxe Edition)",
+      "album_id": "online_tidal#4697233",
+      "length": "03:05",
+      "title": "Fine Time"
+    },
+    {
+      "id": "tidal#6747267",
+      "source": "QOBUZ",
+      "cover": "https://resources.tidal.com/images/b73d95c0/1a10/438d/8315/43b64633eb45/320x320.jpg",
+      "artist": [
+        {
+          "name": "Suede",
+          "id": "online_tidal#3780"
+        }
+      ],
+      "album": "Coming Up (Remastered)",
+      "album_id": "online_tidal#6747261",
+      "length": "03:50",
+      "title": "Beautiful Ones (Remastered)"
+    },
+    {
+      "id": "tidal#15253755",
+      "source": "TIDAL",
+      "cover": "https://resources.tidal.com/images/e42ea1d6/55cf/432b/ad4d/7eb76429ef0e/320x320.jpg",
+      "artist": [
+        {
+          "name": "The Charlatans",
+          "id": "online_tidal#30337"
+        }
+      ],
+      "album": "Tellin' Stories (Expanded Edition)",
+      "album_id": "online_tidal#15253751",
+      "length": "04:27",
+      "title": "One to Another"
+    },
+    {
+      "id": "tidal#360915530",
+      "source": "LOCAL",
+      "cover": "https://resources.tidal.com/images/61bd12da/21fc/4416/b53c/3b8b86997e24/320x320.jpg",
+      "artist": [
+        {
+          "name": "Oasis",
+          "id": "online_tidal#109"
+        }
+      ],
+      "album": "Definitely Maybe (30th Anniversary Deluxe Edition)",
+      "album_id": "online_tidal#360915522",
+      "length": "04:49",
+      "title": "Cigarettes & Alcohol"
+    },
+    {
+      "id": "tidal#2212110",
+      "source": "LOCAL",
+      "cover": "https://resources.tidal.com/images/1eeca82c/5183/47fc/bfa7/57eb301a8e35/320x320.jpg",
+      "artist": [
+        {
+          "name": "The Libertines",
+          "id": "online_tidal#3566020"
+        }
+      ],
+      "album": "The Libertines",
+      "album_id": "online_tidal#2212107",
+      "length": "03:24",
+      "title": "Can't Stand Me Now"
+    }
+  ]
+}
