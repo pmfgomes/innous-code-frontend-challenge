@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Heart, Play, Search } from "lucide-react";
+import { Search } from "lucide-react";
 import { useMemo, useState } from "react";
 
 import {
@@ -11,51 +11,10 @@ import {
 } from "@/components/ui/breadcrumb";
 import { cn } from "@/lib/utils";
 import { useAppSelector } from "@/store/hooks";
-import { selectPlaylist, type PlaylistTrack } from "@/store/playlist-slice";
+import { selectPlaylist } from "@/store/playlist-slice";
 
-type SourceFilter = "ALL" | PlaylistTrack["source"];
-
-const SOURCE_FILTER_ORDER = ["ALL", "LOCAL", "QOBUZ", "TIDAL"] as const;
-
-const SOURCE_BADGE_STYLES: Record<string, string> = {
-  LOCAL: "border-[#8e7357]/40 bg-[#4f4537] text-[#f3dfbd]",
-  QOBUZ: "border-[#6f7f8b]/40 bg-[#3c464f] text-[#d7e4f0]",
-  TIDAL: "border-[#7a6a57]/40 bg-[#493f33] text-[#f2ddbc]",
-};
-
-const PLAYLIST_CURATOR = "Pedro Gomes";
-
-function formatArtists(artists: PlaylistTrack["artist"]) {
-  return artists.map((artist) => artist.name).join(", ");
-}
-
-function getSourceBadgeClasses(source: string) {
-  return SOURCE_BADGE_STYLES[source] ?? "border-white/10 bg-white/5 text-white/80";
-}
-
-function formatHeaderDuration(totalTime: string) {
-  const [hours, minutes, seconds] = totalTime.split(":").map((part) => Number(part));
-
-  if ([hours, minutes, seconds].some((part) => Number.isNaN(part))) {
-    return totalTime;
-  }
-
-  const parts = [];
-
-  if (hours > 0) {
-    parts.push(`${hours}h`);
-  }
-
-  if (minutes > 0) {
-    parts.push(`${minutes}min`);
-  }
-
-  if (seconds > 0) {
-    parts.push(`${seconds}sec`);
-  }
-
-  return parts.join(" ");
-}
+import { TrackRow } from "./track-row";
+import { PLAYLIST_CURATOR, SOURCE_FILTER_ORDER, formatArtists, formatHeaderDuration, type SourceFilter } from "./utils";
 
 export function PlaylistPage() {
   const playlist = useAppSelector(selectPlaylist);
@@ -95,6 +54,7 @@ export function PlaylistPage() {
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(209,169,124,0.18),transparent_28%),radial-gradient(circle_at_bottom_right,rgba(0,0,0,0.24),transparent_30%)]" />
       <div className="pointer-events-none fixed inset-y-0 left-0 hidden w-[max(0px,calc((100vw-2560px)/2))] bg-linear-to-r from-black/40 via-black/15 to-transparent backdrop-blur-lg min-[2561px]:block" />
       <div className="pointer-events-none fixed inset-y-0 right-0 hidden w-[max(0px,calc((100vw-2560px)/2))] bg-linear-to-l from-black/40 via-black/15 to-transparent backdrop-blur-lg min-[2561px]:block" />
+
       <div className="relative mx-auto flex w-full max-w-640 flex-col gap-6">
         <header className="flex flex-col gap-3">
           <Breadcrumb>
@@ -116,6 +76,7 @@ export function PlaylistPage() {
           <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.04),transparent_26%),radial-gradient(circle_at_top_right,rgba(209,169,124,0.12),transparent_22%)]" />
 
           <div className="relative flex flex-col gap-8 p-5 sm:p-7 lg:gap-10 lg:p-10 xl:p-12">
+            {/* Hero */}
             <div className="grid grid-cols-[minmax(120px,184px)_minmax(0,1fr)] items-start gap-4 sm:grid-cols-[16rem_minmax(0,1fr)] sm:gap-6">
               <div className="overflow-hidden rounded-3xl border border-white/8 bg-[#404040] shadow-[0_16px_50px_rgba(0,0,0,0.28)]">
                 <img
@@ -127,14 +88,12 @@ export function PlaylistPage() {
                 />
               </div>
 
-              <div className="flex min-w-0 flex-col gap-5 pt-1 sm:h-64 sm:justify-between sm:pt-4">
-                <div className="flex flex-col gap-3">
-                  <div className="space-y-3">
-                    <h1 className="max-w-4xl text-4xl font-semibold tracking-[-0.03em] text-[#f2f0ea] sm:text-5xl lg:text-[3.4rem]">
-                      {playlist.name}
-                    </h1>
-                    <p className="max-w-4xl text-sm leading-7 text-[#bfb8ac] sm:text-base">{playlist.description}</p>
-                  </div>
+              <div className="flex min-w-0 flex-col gap-5 pt-2 sm:h-64 sm:justify-between">
+                <div className="space-y-3">
+                  <h1 className="max-w-4xl text-4xl font-semibold tracking-[-0.03em] text-[#f2f0ea] sm:text-5xl lg:text-[3.4rem]">
+                    {playlist.name}
+                  </h1>
+                  <p className="max-w-4xl text-sm leading-7 text-[#bfb8ac] sm:text-base">{playlist.description}</p>
                 </div>
 
                 <div className="flex flex-wrap items-center gap-x-4 gap-y-2 pt-1 text-sm text-[#d1a97c]">
@@ -147,6 +106,7 @@ export function PlaylistPage() {
               </div>
             </div>
 
+            {/* Filters + Search */}
             <div className="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
               <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
                 <span className="pl-1 text-sm font-semibold text-[#d1a97c] sm:pl-0">Source:</span>
@@ -187,6 +147,7 @@ export function PlaylistPage() {
               </label>
             </div>
 
+            {/* Track list */}
             <div className="overflow-hidden rounded-[1.75rem] border border-white/6 bg-[#343434]">
               <div className="hidden border-b border-[#3b3833] px-6 py-4 md:grid md:grid-cols-[64px_minmax(0,1.8fr)_minmax(0,1.3fr)_120px_56px_72px] md:items-center md:gap-4">
                 <p className="text-center text-[0.7rem] font-semibold tracking-[0.24em] text-[#a8a099] uppercase">#</p>
@@ -203,108 +164,15 @@ export function PlaylistPage() {
                     No tracks match your current search and source filter.
                   </div>
                 ) : (
-                  filteredTracks.map((track, index) => {
-                    const isActive = activeTrackId === track.id;
-                    const artistNames = formatArtists(track.artist);
-
-                    return (
-                      <button
-                        key={track.id}
-                        type="button"
-                        onClick={() => setSelectedTrackId(track.id)}
-                        className={cn(
-                          "block w-full text-left transition-colors",
-                          isActive ? "bg-[#3b3833]" : "bg-transparent hover:bg-white/3"
-                        )}
-                      >
-                        <div className="flex flex-col gap-4 px-4 py-4 sm:px-5 md:hidden">
-                          <div className="flex items-center gap-4">
-                            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-black/15 text-sm font-semibold text-[#e8e2d6]">
-                              {isActive ? (
-                                <Play className="ml-0.5 size-4 text-[#d1a97c]" fill="currentColor" />
-                              ) : (
-                                index + 1
-                              )}
-                            </div>
-                            <img
-                              src={track.cover}
-                              alt={`${track.title} cover`}
-                              className="size-14 shrink-0 rounded-xl object-cover"
-                              loading="lazy"
-                              decoding="async"
-                            />
-                            <div className="min-w-0 flex-1">
-                              <p className="truncate text-sm font-semibold text-[#f2e5ce]">{track.title}</p>
-                              <p className="truncate text-xs text-[#b8b8b8]">{artistNames}</p>
-                            </div>
-                            <Heart
-                              className={cn("size-4 shrink-0", isActive ? "text-[#d1a97c]" : "text-[#8f8a83]")}
-                              fill={isActive ? "currentColor" : "none"}
-                            />
-                          </div>
-
-                          <div className="flex flex-wrap items-center gap-2 text-xs text-[#d7d2cb]">
-                            <span
-                              className={cn(
-                                "rounded-full border px-2.5 py-1 font-semibold tracking-[0.08em] uppercase",
-                                getSourceBadgeClasses(track.source)
-                              )}
-                            >
-                              {track.source}
-                            </span>
-                            <span className="rounded-full border border-white/8 px-2.5 py-1">{track.album}</span>
-                            <span className="ml-auto text-sm text-[#d7d2cb]">{track.length}</span>
-                          </div>
-                        </div>
-
-                        <div className="hidden grid-cols-[64px_minmax(0,1.8fr)_minmax(0,1.3fr)_120px_56px_72px] items-center gap-4 px-6 py-4 md:grid">
-                          <div className="flex h-10 items-center justify-center text-sm font-semibold text-[#e8e2d6]">
-                            {isActive ? (
-                              <Play className="ml-0.5 size-4.5 text-[#d1a97c]" fill="currentColor" />
-                            ) : (
-                              index + 1
-                            )}
-                          </div>
-
-                          <div className="flex min-w-0 items-center gap-4">
-                            <img
-                              src={track.cover}
-                              alt={`${track.title} cover`}
-                              className="size-12 shrink-0 rounded-lg object-cover"
-                              loading="lazy"
-                              decoding="async"
-                            />
-                            <div className="min-w-0">
-                              <p className="truncate text-sm font-semibold text-[#f2e5ce]">{track.title}</p>
-                              <p className="truncate text-xs text-[#b8b8b8]">{artistNames}</p>
-                            </div>
-                          </div>
-
-                          <p className="truncate text-sm text-[#d7d2cb]">{track.album}</p>
-
-                          <div>
-                            <span
-                              className={cn(
-                                "inline-flex rounded-full border px-3 py-1 text-xs font-semibold tracking-[0.08em] uppercase",
-                                getSourceBadgeClasses(track.source)
-                              )}
-                            >
-                              {track.source}
-                            </span>
-                          </div>
-
-                          <div className="flex items-center justify-center">
-                            <Heart
-                              className={cn("size-4.5", isActive ? "text-[#d1a97c]" : "text-[#8f8a83]")}
-                              fill={isActive ? "currentColor" : "none"}
-                            />
-                          </div>
-
-                          <p className="text-sm text-[#d7d2cb]">{track.length}</p>
-                        </div>
-                      </button>
-                    );
-                  })
+                  filteredTracks.map((track, index) => (
+                    <TrackRow
+                      key={track.id}
+                      track={track}
+                      index={index}
+                      isActive={activeTrackId === track.id}
+                      onSelect={setSelectedTrackId}
+                    />
+                  ))
                 )}
               </div>
             </div>
