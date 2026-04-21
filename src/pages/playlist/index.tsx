@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { Heart, Search, X } from "lucide-react";
 import { useMemo, useState } from "react";
 
+import { FilterBadges, type FilterBadgeOption } from "@/components/filter-badges.tsx";
 import { SourceIcon } from "@/components/source-badge";
 import {
   Breadcrumb,
@@ -10,7 +11,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { cn } from "@/lib/utils";
+import { useFuzzySearch } from "@/hooks/use-fuzzy-search";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { selectPlaylist, toggleTrackFavorite } from "@/store/playlist-slice";
 
@@ -22,7 +23,6 @@ import {
   formatHeaderDuration,
   type PlaylistFilter,
 } from "./utils";
-import { useFuzzySearch } from "@/hooks/use-fuzzy-search";
 
 export function PlaylistPage() {
   const dispatch = useAppDispatch();
@@ -38,6 +38,29 @@ export function PlaylistPage() {
           source === "ALL" || source === "FAVORITES" || playlist.tracks.some((track) => track.source === source)
       ),
     [playlist.tracks]
+  );
+
+  const filterBadges = useMemo(
+    () =>
+      availableFilters.reduce<Partial<Record<PlaylistFilter, FilterBadgeOption>>>((badges, filter) => {
+        badges[filter] = {
+          label:
+            filter === "ALL"
+              ? "All"
+              : filter === "FAVORITES"
+                ? "Favorites"
+                : filter.charAt(0) + filter.slice(1).toLowerCase(),
+          icon:
+            filter === "FAVORITES" ? (
+              <Heart className="size-3.5" />
+            ) : filter !== "ALL" ? (
+              <SourceIcon source={filter} imageClassName="h-3.5" />
+            ) : undefined,
+        };
+
+        return badges;
+      }, {}),
+    [availableFilters]
   );
 
   const sourceFilteredTracks = useMemo(
@@ -111,41 +134,7 @@ export function PlaylistPage() {
 
             {/* Filters + Search */}
             <div className="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
-              <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
-                <span className="pl-1 text-sm font-semibold text-[#d1a97c] sm:pl-0">Source:</span>
-                <div className="flex flex-wrap gap-3">
-                  {availableFilters.map((filter) => {
-                    const isActive = filter === sourceFilter;
-
-                    return (
-                      <button
-                        key={filter}
-                        type="button"
-                        aria-pressed={isActive}
-                        onClick={() => setSourceFilter(filter as PlaylistFilter)}
-                        className={cn(
-                          "inline-flex items-center gap-2 rounded-full border px-5 py-2.5 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d1a97c]/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[#343434]",
-                          isActive
-                            ? "border-[#5d4f3f] bg-[#4a4033] text-[#f2e5ce]"
-                            : "border-white/6 bg-[#343434] text-[#d1a97c] hover:border-[#5d4f3f] hover:bg-[#3c3c3c]"
-                        )}
-                      >
-                        {filter === "FAVORITES" ? (
-                          <Heart className="size-3.5" fill={isActive ? "currentColor" : "none"} />
-                        ) : null}
-                        {filter !== "ALL" && filter !== "FAVORITES" ? (
-                          <SourceIcon source={filter} imageClassName="h-3.5" />
-                        ) : null}
-                        {filter === "ALL"
-                          ? "All"
-                          : filter === "FAVORITES"
-                            ? "Favorites"
-                            : filter.charAt(0) + filter.slice(1).toLowerCase()}
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
+              <FilterBadges label="Source:" data={filterBadges} value={sourceFilter} onChange={setSourceFilter} />
 
               <label className="flex h-13 w-full items-center gap-3 rounded-full border border-white/6 bg-[#3a3a3a] px-5 text-sm text-[#e6e0d6] shadow-[inset_0_1px_0_rgba(255,255,255,0.03)] xl:max-w-90">
                 <Search className="size-4.5 shrink-0 text-[#d1a97c]" />
