@@ -1,8 +1,9 @@
 import { Link } from "@tanstack/react-router";
-import { Heart, Search, X } from "lucide-react";
+import { Heart } from "lucide-react";
 import { useMemo, useState } from "react";
 
 import { FilterBadges, type FilterBadgeOption } from "@/components/filter-badges.tsx";
+import { SearchFilter } from "@/components/search-filter";
 import { SourceIcon } from "@/components/source-badge";
 import {
   Breadcrumb,
@@ -24,6 +25,11 @@ export function PlaylistPage() {
   const [sourceFilter, setSourceFilter] = useState<PlaylistFilter>("ALL");
   const [query, setQuery] = useState("");
   const [selectedTrackId, setSelectedTrackId] = useState<string | null>(null);
+
+  function handleSourceFilterChange(nextFilter: PlaylistFilter) {
+    setSourceFilter(nextFilter);
+    setQuery("");
+  }
 
   const filterBadges = useMemo<Record<PlaylistFilter, FilterBadgeOption>>(
     () => ({
@@ -121,29 +127,14 @@ export function PlaylistPage() {
 
             {/* Filters + Search */}
             <div className="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
-              <FilterBadges label="Source:" data={filterBadges} value={sourceFilter} onChange={setSourceFilter} />
+              <FilterBadges
+                label="Source:"
+                data={filterBadges}
+                value={sourceFilter}
+                onChange={handleSourceFilterChange}
+              />
 
-              <label className="flex h-13 w-full items-center gap-3 rounded-full border border-white/6 bg-[#3a3a3a] px-5 text-sm text-[#e6e0d6] shadow-[inset_0_1px_0_rgba(255,255,255,0.03)] xl:max-w-90">
-                <Search className="size-4.5 shrink-0 text-[#d1a97c]" />
-                <span className="sr-only">Search tracks</span>
-                <input
-                  type="search"
-                  value={query}
-                  onChange={(event) => setQuery(event.target.value)}
-                  placeholder="Search track..."
-                  className="playlist-search-input w-full bg-transparent text-sm text-[#e6e0d6] placeholder:text-[#bfb8ac] outline-none"
-                />
-                {query ? (
-                  <button
-                    type="button"
-                    onClick={() => setQuery("")}
-                    aria-label="Clear search"
-                    className="shrink-0 rounded-full p-1 text-[#d1a97c] transition-colors hover:text-[#f2e5ce] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d1a97c]/60"
-                  >
-                    <X className="size-4" />
-                  </button>
-                ) : null}
-              </label>
+              <SearchFilter value={query} onSubmit={setQuery} label="Search tracks" placeholder="Search track..." />
             </div>
 
             {/* Track list */}
