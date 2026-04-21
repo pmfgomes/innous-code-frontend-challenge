@@ -17,7 +17,13 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { selectPlaylist, toggleTrackFavorite } from "@/store/playlist-slice";
 
 import { TrackRow } from "./track-row";
-import { PLAYLIST_CURATOR, PLAYLIST_SEARCH_OPTIONS, formatHeaderDuration, type PlaylistFilter } from "./utils";
+import {
+  PLAYLIST_CURATOR,
+  PLAYLIST_SEARCH_OPTIONS,
+  formatHeaderDuration,
+  parseTrackLengthToSeconds,
+  type PlaylistFilter,
+} from "./utils";
 
 export function PlaylistPage() {
   const dispatch = useAppDispatch();
@@ -62,6 +68,11 @@ export function PlaylistPage() {
         sourceFilter === "ALL" ? true : sourceFilter === "FAVORITES" ? track.favorite : track.source === sourceFilter
       ),
     [playlist.tracks, sourceFilter]
+  );
+
+  const totalPlaylistDuration = useMemo(
+    () => playlist.tracks.reduce((total, track) => total + parseTrackLengthToSeconds(track.length), 0),
+    [playlist.tracks]
   );
 
   const filteredTracks = useFuzzySearch(sourceFilteredTracks, query, PLAYLIST_SEARCH_OPTIONS);
@@ -120,7 +131,7 @@ export function PlaylistPage() {
                   <span className="text-[#8d7f70]">•</span>
                   <span className="font-medium">{playlist.track_count} Tracks</span>
                   <span className="text-[#8d7f70]">•</span>
-                  <span className="font-medium">{formatHeaderDuration(playlist.total_time)}</span>
+                  <span className="font-medium">{formatHeaderDuration(totalPlaylistDuration)}</span>
                 </div>
               </div>
             </div>

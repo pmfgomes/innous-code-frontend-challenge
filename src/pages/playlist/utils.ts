@@ -23,11 +23,35 @@ export function formatArtists(artists: PlaylistTrack["artist"]): string {
   return artists.map((artist) => artist.name).join(", ");
 }
 
-export function formatHeaderDuration(totalTime: string): string {
-  const [hours, minutes, seconds] = totalTime.split(":").map((part) => Number(part));
+export function parseTrackLengthToSeconds(length: string): number {
+  const parts = length.split(":").map((part) => Number(part));
 
-  if ([hours, minutes, seconds].some((part) => Number.isNaN(part))) {
-    return totalTime;
+  if (parts.some((part) => Number.isNaN(part))) {
+    return 0;
+  }
+
+  if (parts.length === 2) {
+    const [minutes, seconds] = parts;
+
+    return minutes * 60 + seconds;
+  }
+
+  if (parts.length === 3) {
+    const [hours, minutes, seconds] = parts;
+
+    return hours * 3600 + minutes * 60 + seconds;
+  }
+
+  return 0;
+}
+
+export function formatHeaderDuration(totalSeconds: number): string {
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+
+  if (totalSeconds <= 0) {
+    return "0sec";
   }
 
   const parts: string[] = [];
