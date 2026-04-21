@@ -1,3 +1,5 @@
+import type { IFuseOptions } from "fuse.js";
+
 import type { PlaylistTrack } from "@/store/playlist-slice";
 
 export type SourceFilter = "ALL" | PlaylistTrack["source"];
@@ -5,6 +7,17 @@ export type SourceFilter = "ALL" | PlaylistTrack["source"];
 export type PlaylistFilter = "ALL" | "FAVORITES" | PlaylistTrack["source"];
 
 export const SOURCE_FILTER_ORDER = ["ALL", "FAVORITES", "LOCAL", "QOBUZ", "TIDAL"] as const;
+
+export const PLAYLIST_SEARCH_OPTIONS: IFuseOptions<PlaylistTrack> = {
+  keys: [
+    { name: "title", weight: 0.45 },
+    { name: "album", weight: 0.35 },
+    { name: "artist.name", weight: 0.2 },
+  ],
+  threshold: 0.35,
+  ignoreLocation: true,
+  minMatchCharLength: 2,
+};
 
 export const PLAYLIST_CURATOR = "Pedro Gomes";
 

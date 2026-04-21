@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Heart, Search } from "lucide-react";
+import { Heart, Search, X } from "lucide-react";
 import { useMemo, useState } from "react";
 
 import { SourceIcon } from "@/components/source-badge";
@@ -17,11 +17,12 @@ import { selectPlaylist, toggleTrackFavorite } from "@/store/playlist-slice";
 import { TrackRow } from "./track-row";
 import {
   PLAYLIST_CURATOR,
+  PLAYLIST_SEARCH_OPTIONS,
   SOURCE_FILTER_ORDER,
-  formatArtists,
   formatHeaderDuration,
   type PlaylistFilter,
 } from "./utils";
+import { useFuzzySearch } from "@/hooks/use-fuzzy-search";
 
 export function PlaylistPage() {
   const dispatch = useAppDispatch();
@@ -39,21 +40,15 @@ export function PlaylistPage() {
     [playlist.tracks]
   );
 
-  const filteredTracks = useMemo(() => {
-    const normalizedQuery = query.trim().toLowerCase();
+  const sourceFilteredTracks = useMemo(
+    () =>
+      playlist.tracks.filter((track) =>
+        sourceFilter === "ALL" ? true : sourceFilter === "FAVORITES" ? track.favorite : track.source === sourceFilter
+      ),
+    [playlist.tracks, sourceFilter]
+  );
 
-    return playlist.tracks.filter((track) => {
-      const matchesSource =
-        sourceFilter === "ALL" ? true : sourceFilter === "FAVORITES" ? track.favorite : track.source === sourceFilter;
-      const matchesQuery =
-        normalizedQuery.length === 0 ||
-        track.title.toLowerCase().includes(normalizedQuery) ||
-        track.album.toLowerCase().includes(normalizedQuery) ||
-        formatArtists(track.artist).toLowerCase().includes(normalizedQuery);
-
-      return matchesSource && matchesQuery;
-    });
-  }, [playlist.tracks, query, sourceFilter]);
+  const filteredTracks = useFuzzySearch(sourceFilteredTracks, query, PLAYLIST_SEARCH_OPTIONS);
 
   const activeTrackId = filteredTracks.some((track) => track.id === selectedTrackId) ? selectedTrackId : null;
 
@@ -160,8 +155,18 @@ export function PlaylistPage() {
                   value={query}
                   onChange={(event) => setQuery(event.target.value)}
                   placeholder="Search track..."
-                  className="w-full bg-transparent text-sm text-[#e6e0d6] placeholder:text-[#bfb8ac] outline-none"
+                  className="playlist-search-input w-full bg-transparent text-sm text-[#e6e0d6] placeholder:text-[#bfb8ac] outline-none"
                 />
+                {query ? (
+                  <button
+                    type="button"
+                    onClick={() => setQuery("")}
+                    aria-label="Clear search"
+                    className="shrink-0 rounded-full p-1 text-[#d1a97c] transition-colors hover:text-[#f2e5ce] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d1a97c]/60"
+                  >
+                    <X className="size-4" />
+                  </button>
+                ) : null}
               </label>
             </div>
 
