@@ -1,6 +1,6 @@
 import { Heart, Play } from "lucide-react";
 
-import { SourceBadge } from "@/components/source-badge";
+import { SourceBadge, SourceIcon } from "@/components/source-badge";
 import { cn } from "@/lib/utils";
 import type { PlaylistTrack } from "@/store/playlist-slice";
 
@@ -76,7 +76,9 @@ export function TrackRow({ track, index, isActive, onSelect }: TrackRowProps) {
 
         <p className="truncate text-sm text-[#d7d2cb]">{track.album}</p>
 
-        <SourceBadge source={track.source} />
+        <div className="flex items-center justify-center">
+          <SourceIcon source={track.source} imageClassName="h-4.5" />
+        </div>
 
         <div className="flex items-center justify-center">
           <Heart

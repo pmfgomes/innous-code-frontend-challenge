@@ -9,6 +9,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import { SourceIcon } from "@/components/source-badge";
 import { cn } from "@/lib/utils";
 import { useAppSelector } from "@/store/hooks";
 import { selectPlaylist } from "@/store/playlist-slice";
@@ -121,12 +122,13 @@ export function PlaylistPage() {
                         aria-pressed={isActive}
                         onClick={() => setSourceFilter(filter as SourceFilter)}
                         className={cn(
-                          "rounded-full border px-5 py-2.5 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d1a97c]/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[#343434]",
+                          "inline-flex items-center gap-2 rounded-full border px-5 py-2.5 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d1a97c]/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[#343434]",
                           isActive
                             ? "border-[#5d4f3f] bg-[#4a4033] text-[#f2e5ce]"
                             : "border-white/6 bg-[#343434] text-[#d1a97c] hover:border-[#5d4f3f] hover:bg-[#3c3c3c]"
                         )}
                       >
+                        {filter !== "ALL" ? <SourceIcon source={filter} imageClassName="h-3.5" /> : null}
                         {filter === "ALL" ? "All" : filter.charAt(0) + filter.slice(1).toLowerCase()}
                       </button>
                     );
