@@ -89,7 +89,7 @@ export function PlaylistPage() {
       <div className="pointer-events-none fixed inset-y-0 left-0 hidden w-[max(0px,calc((100vw-2560px)/2))] bg-linear-to-r from-black/40 via-black/15 to-transparent backdrop-blur-lg min-[2561px]:block" />
       <div className="pointer-events-none fixed inset-y-0 right-0 hidden w-[max(0px,calc((100vw-2560px)/2))] bg-linear-to-l from-black/40 via-black/15 to-transparent backdrop-blur-lg min-[2561px]:block" />
 
-      <div className="relative mx-auto flex min-h-0 w-full max-w-640 flex-1 flex-col gap-6">
+      <div className="relative mx-auto flex min-h-0 w-full max-w-640 flex-1 flex-col gap-6 portrait:gap-4">
         <header className="flex flex-col gap-3">
           <Breadcrumb>
             <BreadcrumbList>
@@ -109,10 +109,10 @@ export function PlaylistPage() {
         <section className="relative flex min-h-0 flex-1 flex-col overflow-hidden rounded-4xl border border-white/8 bg-[#343434] shadow-[0_24px_90px_rgba(0,0,0,0.34)]">
           <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.04),transparent_26%),radial-gradient(circle_at_top_right,rgba(209,169,124,0.12),transparent_22%)]" />
 
-          <div className="relative flex min-h-0 flex-1 flex-col gap-8 p-8">
+          <div className="relative flex min-h-0 flex-1 flex-col gap-8 p-8 portrait:gap-5 portrait:p-5 sm:gap-8 sm:p-8">
             {/* Hero */}
-            <div className="grid grid-cols-[minmax(120px,184px)_minmax(0,1fr)] items-start gap-4 sm:grid-cols-[16rem_minmax(0,1fr)] sm:gap-6">
-              <div className="overflow-hidden rounded-3xl border border-white/8 bg-[#404040] shadow-[0_16px_50px_rgba(0,0,0,0.28)]">
+            <div className="grid grid-cols-[minmax(120px,184px)_minmax(0,1fr)] grid-rows-[auto_auto_auto] items-start gap-x-4 gap-y-3 portrait:grid-cols-[120px_minmax(0,1fr)] portrait:items-center portrait:gap-x-4 portrait:gap-y-5 sm:grid-cols-[16rem_minmax(0,1fr)] sm:gap-x-6 sm:gap-y-6">
+              <div className="col-start-1 row-span-3 h-full overflow-hidden rounded-3xl border border-white/8 bg-[#404040] shadow-[0_16px_50px_rgba(0,0,0,0.28)] portrait:row-span-1">
                 <img
                   src={playlist.cover_id}
                   alt={`${playlist.name} cover`}
@@ -122,13 +122,14 @@ export function PlaylistPage() {
                 />
               </div>
 
-              <div className="flex min-w-0 flex-col gap-5 pt-2 sm:h-64 sm:justify-between">
-                <div className="space-y-3">
-                  <h1 className="max-w-4xl text-4xl font-semibold tracking-[-0.03em] text-[#f2f0ea] sm:text-5xl lg:text-[3.4rem]">
-                    {playlist.name}
-                  </h1>
-                  <p className="max-w-4xl text-sm leading-7 text-[#bfb8ac] sm:text-base">{playlist.description}</p>
-                </div>
+              <div className="col-start-2 row-start-1 flex min-w-0 items-center justify-start pt-1 portrait:pt-0">
+                <h1 className="max-w-4xl text-4xl font-semibold tracking-[-0.03em] text-[#f2f0ea] sm:text-5xl lg:text-[3.4rem]">
+                  {playlist.name}
+                </h1>
+              </div>
+
+              <div className="col-start-2 row-start-2 space-y-4 portrait:col-span-2 portrait:col-start-1 portrait:space-y-5 sm:space-y-5">
+                <p className="max-w-5xl text-sm leading-7 text-[#bfb8ac] sm:text-base">{playlist.description}</p>
 
                 <div className="flex flex-wrap items-center gap-x-4 gap-y-2 pt-1 text-sm text-[#d1a97c]">
                   <span className="font-semibold">{PLAYLIST_CURATOR}</span>
@@ -141,7 +142,7 @@ export function PlaylistPage() {
             </div>
 
             {/* Filters + Search */}
-            <div className="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
+            <div className="flex flex-col gap-4 portrait:gap-3 sm:gap-4 xl:flex-row xl:items-center xl:justify-between">
               <FilterBadges
                 label="Source:"
                 data={filterBadges}
