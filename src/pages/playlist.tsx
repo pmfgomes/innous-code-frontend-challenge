@@ -23,12 +23,38 @@ const SOURCE_BADGE_STYLES: Record<string, string> = {
   TIDAL: "border-[#7a6a57]/40 bg-[#493f33] text-[#f2ddbc]",
 };
 
+const PLAYLIST_CURATOR = "Pedro Gomes";
+
 function formatArtists(artists: PlaylistTrack["artist"]) {
   return artists.map((artist) => artist.name).join(", ");
 }
 
 function getSourceBadgeClasses(source: string) {
   return SOURCE_BADGE_STYLES[source] ?? "border-white/10 bg-white/5 text-white/80";
+}
+
+function formatHeaderDuration(totalTime: string) {
+  const [hours, minutes, seconds] = totalTime.split(":").map((part) => Number(part));
+
+  if ([hours, minutes, seconds].some((part) => Number.isNaN(part))) {
+    return totalTime;
+  }
+
+  const parts = [];
+
+  if (hours > 0) {
+    parts.push(`${hours}h`);
+  }
+
+  if (minutes > 0) {
+    parts.push(`${minutes}min`);
+  }
+
+  if (seconds > 0) {
+    parts.push(`${seconds}sec`);
+  }
+
+  return parts.join(" ");
 }
 
 export function PlaylistPage() {
@@ -90,7 +116,7 @@ export function PlaylistPage() {
           <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.04),transparent_26%),radial-gradient(circle_at_top_right,rgba(209,169,124,0.12),transparent_22%)]" />
 
           <div className="relative flex flex-col gap-8 p-5 sm:p-7 lg:gap-10 lg:p-10 xl:p-12">
-            <div className="grid grid-cols-[minmax(120px,180px)_minmax(0,1fr)] items-start gap-4 sm:grid-cols-[240px_minmax(0,1fr)] sm:gap-6">
+            <div className="grid grid-cols-[minmax(120px,184px)_minmax(0,1fr)] items-start gap-4 sm:grid-cols-[16rem_minmax(0,1fr)] sm:gap-6">
               <div className="overflow-hidden rounded-3xl border border-white/8 bg-[#404040] shadow-[0_16px_50px_rgba(0,0,0,0.28)]">
                 <img
                   src={playlist.cover_id}
@@ -101,9 +127,8 @@ export function PlaylistPage() {
                 />
               </div>
 
-              <div className="flex min-w-0 flex-col gap-5 pt-1 sm:min-h-60 sm:justify-between sm:pt-4">
+              <div className="flex min-w-0 flex-col gap-5 pt-1 sm:h-64 sm:justify-between sm:pt-4">
                 <div className="flex flex-col gap-3">
-                  <p className="text-sm font-semibold tracking-[0.28em] text-[#d1a97c] uppercase">Playlist</p>
                   <div className="space-y-3">
                     <h1 className="max-w-4xl text-4xl font-semibold tracking-[-0.03em] text-[#f2f0ea] sm:text-5xl lg:text-[3.4rem]">
                       {playlist.name}
@@ -113,11 +138,11 @@ export function PlaylistPage() {
                 </div>
 
                 <div className="flex flex-wrap items-center gap-x-4 gap-y-2 pt-1 text-sm text-[#d1a97c]">
-                  <span className="font-semibold tracking-[0.08em] uppercase">{playlist.source}</span>
+                  <span className="font-semibold">{PLAYLIST_CURATOR}</span>
                   <span className="text-[#8d7f70]">•</span>
                   <span className="font-medium">{playlist.track_count} Tracks</span>
                   <span className="text-[#8d7f70]">•</span>
-                  <span className="font-medium">{playlist.total_time}</span>
+                  <span className="font-medium">{formatHeaderDuration(playlist.total_time)}</span>
                 </div>
               </div>
             </div>
