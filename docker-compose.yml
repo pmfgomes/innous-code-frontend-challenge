@@ -1,0 +1,15 @@
+services:
+  web:
+    build:
+      context: .
+    ports:
+      - "${PORT:-5173}:${PORT:-5173}"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - PORT=${PORT:-5173}
+      - CHOKIDAR_USEPOLLING=true # Helps with file watching on some OS/filesystems (like Windows)
+      - WATCHPACK_POLLING=true
+    # Vite development server needs --host to bind on all interfaces (0.0.0.0)
+    command: bun run dev --host --port ${PORT}
