@@ -12,4 +12,4 @@ services:
       - CHOKIDAR_USEPOLLING=true # Helps with file watching on some OS/filesystems (like Windows)
       - WATCHPACK_POLLING=true
     # Vite development server needs --host to bind on all interfaces (0.0.0.0)
-    command: bun run dev --host --port ${PORT}
+    command: bun run dev --host --port ${PORT:-5173}
