@@ -2,7 +2,9 @@ import type { PlaylistTrack } from "@/store/playlist-slice";
 
 export type SourceFilter = "ALL" | PlaylistTrack["source"];
 
-export const SOURCE_FILTER_ORDER = ["ALL", "LOCAL", "QOBUZ", "TIDAL"] as const;
+export type PlaylistFilter = "ALL" | "FAVORITES" | PlaylistTrack["source"];
+
+export const SOURCE_FILTER_ORDER = ["ALL", "FAVORITES", "LOCAL", "QOBUZ", "TIDAL"] as const;
 
 export const PLAYLIST_CURATOR = "Pedro Gomes";
 

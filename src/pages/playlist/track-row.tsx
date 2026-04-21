@@ -1,5 +1,6 @@
-import { Heart, Play } from "lucide-react";
+import { Play } from "lucide-react";
 
+import { FavoriteButton } from "@/components/favorite-button";
 import { SourceBadge, SourceIcon } from "@/components/source-badge";
 import { cn } from "@/lib/utils";
 import type { PlaylistTrack } from "@/store/playlist-slice";
@@ -11,15 +12,31 @@ interface TrackRowProps {
   index: number;
   isActive: boolean;
   onSelect: (id: string) => void;
+  onToggleFavorite: (id: string) => void;
 }
 
-export function TrackRow({ track, index, isActive, onSelect }: TrackRowProps) {
+export function TrackRow({ track, index, isActive, onSelect, onToggleFavorite }: TrackRowProps) {
   const artistNames = formatArtists(track.artist);
+  const handleFavoriteClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
+    onToggleFavorite(track.id);
+  };
 
   return (
-    <button
-      type="button"
+    <div
+      role="button"
+      tabIndex={0}
       onClick={() => onSelect(track.id)}
+      onKeyDown={(event) => {
+        if (event.currentTarget !== event.target) {
+          return;
+        }
+
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          onSelect(track.id);
+        }
+      }}
       className={cn(
         "block w-full text-left transition-colors",
         isActive ? "bg-[#3b3833]" : "bg-transparent hover:bg-white/3"
@@ -42,9 +59,11 @@ export function TrackRow({ track, index, isActive, onSelect }: TrackRowProps) {
             <p className="truncate text-sm font-semibold text-[#f2e5ce]">{track.title}</p>
             <p className="truncate text-xs text-[#b8b8b8]">{artistNames}</p>
           </div>
-          <Heart
-            className={cn("size-4 shrink-0", isActive ? "text-[#d1a97c]" : "text-[#8f8a83]")}
-            fill={isActive ? "currentColor" : "none"}
+          <FavoriteButton
+            isFavorite={track.favorite}
+            onClick={handleFavoriteClick}
+            className="shrink-0"
+            iconClassName="size-4"
           />
         </div>
         <div className="flex flex-wrap items-center gap-2 text-xs text-[#d7d2cb]">
@@ -81,14 +100,11 @@ export function TrackRow({ track, index, isActive, onSelect }: TrackRowProps) {
         </div>
 
         <div className="flex items-center justify-center">
-          <Heart
-            className={cn("size-4.5", isActive ? "text-[#d1a97c]" : "text-[#8f8a83]")}
-            fill={isActive ? "currentColor" : "none"}
-          />
+          <FavoriteButton isFavorite={track.favorite} onClick={handleFavoriteClick} iconClassName="size-4.5" />
         </div>
 
         <p className="text-sm text-[#d7d2cb]">{track.length}</p>
       </div>
-    </button>
+    </div>
   );
 }

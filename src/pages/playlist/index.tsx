@@ -1,7 +1,8 @@
 import { Link } from "@tanstack/react-router";
-import { Search } from "lucide-react";
+import { Heart, Search } from "lucide-react";
 import { useMemo, useState } from "react";
 
+import { SourceIcon } from "@/components/source-badge";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -9,24 +10,31 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { SourceIcon } from "@/components/source-badge";
 import { cn } from "@/lib/utils";
-import { useAppSelector } from "@/store/hooks";
-import { selectPlaylist } from "@/store/playlist-slice";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { selectPlaylist, toggleTrackFavorite } from "@/store/playlist-slice";
 
 import { TrackRow } from "./track-row";
-import { PLAYLIST_CURATOR, SOURCE_FILTER_ORDER, formatArtists, formatHeaderDuration, type SourceFilter } from "./utils";
+import {
+  PLAYLIST_CURATOR,
+  SOURCE_FILTER_ORDER,
+  formatArtists,
+  formatHeaderDuration,
+  type PlaylistFilter,
+} from "./utils";
 
 export function PlaylistPage() {
+  const dispatch = useAppDispatch();
   const playlist = useAppSelector(selectPlaylist);
-  const [sourceFilter, setSourceFilter] = useState<SourceFilter>("ALL");
+  const [sourceFilter, setSourceFilter] = useState<PlaylistFilter>("ALL");
   const [query, setQuery] = useState("");
-  const [selectedTrackId, setSelectedTrackId] = useState<string | null>(playlist.tracks[0]?.id ?? null);
+  const [selectedTrackId, setSelectedTrackId] = useState<string | null>(null);
 
   const availableFilters = useMemo(
     () =>
       SOURCE_FILTER_ORDER.filter(
-        (source) => source === "ALL" || playlist.tracks.some((track) => track.source === source)
+        (source) =>
+          source === "ALL" || source === "FAVORITES" || playlist.tracks.some((track) => track.source === source)
       ),
     [playlist.tracks]
   );
@@ -35,7 +43,8 @@ export function PlaylistPage() {
     const normalizedQuery = query.trim().toLowerCase();
 
     return playlist.tracks.filter((track) => {
-      const matchesSource = sourceFilter === "ALL" || track.source === sourceFilter;
+      const matchesSource =
+        sourceFilter === "ALL" ? true : sourceFilter === "FAVORITES" ? track.favorite : track.source === sourceFilter;
       const matchesQuery =
         normalizedQuery.length === 0 ||
         track.title.toLowerCase().includes(normalizedQuery) ||
@@ -46,9 +55,7 @@ export function PlaylistPage() {
     });
   }, [playlist.tracks, query, sourceFilter]);
 
-  const activeTrackId = filteredTracks.some((track) => track.id === selectedTrackId)
-    ? selectedTrackId
-    : (filteredTracks[0]?.id ?? null);
+  const activeTrackId = filteredTracks.some((track) => track.id === selectedTrackId) ? selectedTrackId : null;
 
   return (
     <main className="relative min-h-screen overflow-x-clip bg-[#2f2f2f] px-4 py-6 text-white sm:px-6 sm:py-8">
@@ -120,7 +127,7 @@ export function PlaylistPage() {
                         key={filter}
                         type="button"
                         aria-pressed={isActive}
-                        onClick={() => setSourceFilter(filter as SourceFilter)}
+                        onClick={() => setSourceFilter(filter as PlaylistFilter)}
                         className={cn(
                           "inline-flex items-center gap-2 rounded-full border px-5 py-2.5 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d1a97c]/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[#343434]",
                           isActive
@@ -128,8 +135,17 @@ export function PlaylistPage() {
                             : "border-white/6 bg-[#343434] text-[#d1a97c] hover:border-[#5d4f3f] hover:bg-[#3c3c3c]"
                         )}
                       >
-                        {filter !== "ALL" ? <SourceIcon source={filter} imageClassName="h-3.5" /> : null}
-                        {filter === "ALL" ? "All" : filter.charAt(0) + filter.slice(1).toLowerCase()}
+                        {filter === "FAVORITES" ? (
+                          <Heart className="size-3.5" fill={isActive ? "currentColor" : "none"} />
+                        ) : null}
+                        {filter !== "ALL" && filter !== "FAVORITES" ? (
+                          <SourceIcon source={filter} imageClassName="h-3.5" />
+                        ) : null}
+                        {filter === "ALL"
+                          ? "All"
+                          : filter === "FAVORITES"
+                            ? "Favorites"
+                            : filter.charAt(0) + filter.slice(1).toLowerCase()}
                       </button>
                     );
                   })}
@@ -173,6 +189,7 @@ export function PlaylistPage() {
                       index={index}
                       isActive={activeTrackId === track.id}
                       onSelect={setSelectedTrackId}
+                      onToggleFavorite={(trackId) => dispatch(toggleTrackFavorite(trackId))}
                     />
                   ))
                 )}

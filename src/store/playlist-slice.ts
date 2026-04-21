@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
 import playlistData from "@/assets/playlist.json";
 
@@ -18,6 +18,7 @@ export interface PlaylistTrack {
   album_id: string;
   length: string;
   title: string;
+  favorite: boolean;
 }
 
 export interface Playlist {
@@ -37,16 +38,33 @@ interface PlaylistState {
 }
 
 const initialState: PlaylistState = {
-  item: playlistData as Playlist,
+  item: {
+    ...playlistData,
+    tracks: playlistData.tracks.map((track) => ({
+      ...track,
+      favorite: false,
+    })),
+  } as Playlist,
 };
 
 const playlistSlice = createSlice({
   name: "playlist",
   initialState,
-  reducers: {},
+  reducers: {
+    toggleTrackFavorite: (state, action: PayloadAction<string>) => {
+      const track = state.item.tracks.find((item) => item.id === action.payload);
+
+      if (!track) {
+        return;
+      }
+
+      track.favorite = !track.favorite;
+    },
+  },
 });
 
 export default playlistSlice.reducer;
 
+export const { toggleTrackFavorite } = playlistSlice.actions;
 export const selectPlaylist = (state: RootState) => state.playlist.item;
 export const selectPlaylistTracks = (state: RootState) => state.playlist.item.tracks;
