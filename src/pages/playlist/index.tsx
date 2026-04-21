@@ -16,13 +16,7 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { selectPlaylist, toggleTrackFavorite } from "@/store/playlist-slice";
 
 import { TrackRow } from "./track-row";
-import {
-  PLAYLIST_CURATOR,
-  PLAYLIST_SEARCH_OPTIONS,
-  SOURCE_FILTER_ORDER,
-  formatHeaderDuration,
-  type PlaylistFilter,
-} from "./utils";
+import { PLAYLIST_CURATOR, PLAYLIST_SEARCH_OPTIONS, formatHeaderDuration, type PlaylistFilter } from "./utils";
 
 export function PlaylistPage() {
   const dispatch = useAppDispatch();
@@ -31,36 +25,29 @@ export function PlaylistPage() {
   const [query, setQuery] = useState("");
   const [selectedTrackId, setSelectedTrackId] = useState<string | null>(null);
 
-  const availableFilters = useMemo(
-    () =>
-      SOURCE_FILTER_ORDER.filter(
-        (source) =>
-          source === "ALL" || source === "FAVORITES" || playlist.tracks.some((track) => track.source === source)
-      ),
-    [playlist.tracks]
-  );
-
-  const filterBadges = useMemo(
-    () =>
-      availableFilters.reduce<Partial<Record<PlaylistFilter, FilterBadgeOption>>>((badges, filter) => {
-        badges[filter] = {
-          label:
-            filter === "ALL"
-              ? "All"
-              : filter === "FAVORITES"
-                ? "Favorites"
-                : filter.charAt(0) + filter.slice(1).toLowerCase(),
-          icon:
-            filter === "FAVORITES" ? (
-              <Heart className="size-3.5" />
-            ) : filter !== "ALL" ? (
-              <SourceIcon source={filter} imageClassName="h-3.5" />
-            ) : undefined,
-        };
-
-        return badges;
-      }, {}),
-    [availableFilters]
+  const filterBadges = useMemo<Record<PlaylistFilter, FilterBadgeOption>>(
+    () => ({
+      ALL: {
+        label: "All",
+      },
+      FAVORITES: {
+        label: "Favorites",
+        icon: <Heart className="size-3.5" />,
+      },
+      LOCAL: {
+        label: "Local",
+        icon: <SourceIcon source="LOCAL" imageClassName="h-3.5" />,
+      },
+      QOBUZ: {
+        label: "Qobuz",
+        icon: <SourceIcon source="QOBUZ" imageClassName="h-3.5" />,
+      },
+      TIDAL: {
+        label: "Tidal",
+        icon: <SourceIcon source="TIDAL" imageClassName="h-3.5" />,
+      },
+    }),
+    []
   );
 
   const sourceFilteredTracks = useMemo(

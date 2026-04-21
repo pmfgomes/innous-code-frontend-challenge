@@ -6,8 +6,6 @@ export type SourceFilter = "ALL" | PlaylistTrack["source"];
 
 export type PlaylistFilter = "ALL" | "FAVORITES" | PlaylistTrack["source"];
 
-export const SOURCE_FILTER_ORDER = ["ALL", "FAVORITES", "LOCAL", "QOBUZ", "TIDAL"] as const;
-
 export const PLAYLIST_SEARCH_OPTIONS: IFuseOptions<PlaylistTrack> = {
   keys: [
     { name: "title", weight: 0.45 },
