@@ -69,7 +69,7 @@ export function PlaylistPage() {
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(209,169,124,0.18),transparent_28%),radial-gradient(circle_at_bottom_right,rgba(0,0,0,0.24),transparent_30%)]" />
       <div className="pointer-events-none fixed inset-y-0 left-0 hidden w-[max(0px,calc((100vw-2560px)/2))] bg-linear-to-r from-black/40 via-black/15 to-transparent backdrop-blur-lg min-[2561px]:block" />
       <div className="pointer-events-none fixed inset-y-0 right-0 hidden w-[max(0px,calc((100vw-2560px)/2))] bg-linear-to-l from-black/40 via-black/15 to-transparent backdrop-blur-lg min-[2561px]:block" />
-      <div className="relative mx-auto flex w-full max-w-310 flex-col gap-6">
+      <div className="relative mx-auto flex w-full max-w-640 flex-col gap-6">
         <header className="flex flex-col gap-3">
           <Breadcrumb>
             <BreadcrumbList>
@@ -90,16 +90,18 @@ export function PlaylistPage() {
           <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.04),transparent_26%),radial-gradient(circle_at_top_right,rgba(209,169,124,0.12),transparent_22%)]" />
 
           <div className="relative flex flex-col gap-8 p-5 sm:p-7 lg:gap-10 lg:p-10 xl:p-12">
-            <div className="grid gap-6 lg:grid-cols-[240px,minmax(0,1fr)] lg:items-start">
+            <div className="grid grid-cols-[minmax(120px,180px)_minmax(0,1fr)] items-start gap-4 sm:grid-cols-[240px_minmax(0,1fr)] sm:gap-6">
               <div className="overflow-hidden rounded-3xl border border-white/8 bg-[#404040] shadow-[0_16px_50px_rgba(0,0,0,0.28)]">
                 <img
                   src={playlist.cover_id}
                   alt={`${playlist.name} cover`}
                   className="aspect-square h-full w-full object-cover"
+                  loading="lazy"
+                  decoding="async"
                 />
               </div>
 
-              <div className="flex min-w-0 flex-col gap-5 pt-1 lg:pt-4">
+              <div className="flex min-w-0 flex-col gap-5 pt-1 sm:min-h-60 sm:justify-between sm:pt-4">
                 <div className="flex flex-col gap-3">
                   <p className="text-sm font-semibold tracking-[0.28em] text-[#d1a97c] uppercase">Playlist</p>
                   <div className="space-y-3">
@@ -203,7 +205,8 @@ export function PlaylistPage() {
                               src={track.cover}
                               alt={`${track.title} cover`}
                               className="size-14 shrink-0 rounded-xl object-cover"
-                              loading={index < 4 ? "eager" : "lazy"}
+                              loading="lazy"
+                              decoding="async"
                             />
                             <div className="min-w-0 flex-1">
                               <p className="truncate text-sm font-semibold text-[#f2e5ce]">{track.title}</p>
@@ -243,7 +246,8 @@ export function PlaylistPage() {
                               src={track.cover}
                               alt={`${track.title} cover`}
                               className="size-12 shrink-0 rounded-lg object-cover"
-                              loading={index < 4 ? "eager" : "lazy"}
+                              loading="lazy"
+                              decoding="async"
                             />
                             <div className="min-w-0">
                               <p className="truncate text-sm font-semibold text-[#f2e5ce]">{track.title}</p>
